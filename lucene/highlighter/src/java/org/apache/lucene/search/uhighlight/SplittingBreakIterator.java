@@ -13,6 +13,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Portions Copyright (c) 2018, Chris Fraire <cfraire@me.com>.
  */
 package org.apache.lucene.search.uhighlight;
 
@@ -59,14 +61,16 @@ public class SplittingBreakIterator extends BreakIterator {
   @Override
   public CharacterIterator getText() {
     StringCharacterIterator charIter = new StringCharacterIterator(text);
-    // API doesn't say what the state should be but it should probably be at the current index.
-    charIter.setIndex(current());
+    /*
+     * API doesn't say what the state of the return value should be, so leave
+     * as initialized -- especially as the current instance might presently be
+     * DONE.
+     */
     return charIter;
   }
 
   @Override
   public int current() {
-    assert current != DONE;
     return current; // MUST be updated by the other methods when result isn't DONE.
   }
 
